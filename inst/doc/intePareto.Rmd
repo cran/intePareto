@@ -1,0 +1,149 @@
+---
+title: "User Manual: intePareto"
+author: "Yingying Cao"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 2
+
+
+vignette: >
+  %\VignetteIndexEntry{User Manual: intePareto}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE, warning = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+\newpage
+
+```{r setup}
+require(intePareto)
+```
+
+# Introduction
+The R package intePareto is designed to do integrative analysis when matched RNA-Seq and ChIP-Seq data are available from the same set of samples. The main steps include the matching of RNA-Seq and ChIP-Seq data on gene level, quantitativey integrate both data types and prioritize genes using Pareto optimaztion.
+
+# Method
+**1. bam to counts/rpm**  
+intePareto transform the aligned bam files into counts or rpm (reads per million) that fall into specific region like promoter or genebody.  
+```{r}
+data("promoter", package = "intePareto")
+file.bam <- system.file("extdata", "SRR925640.bam", 
+                        package = "intePareto")
+# note: this is just a subsampled test bam file to show how it works
+b2c <- bam2counts(bamFile = file.bam,
+                  region = promoter,
+                  fragLength = 180)
+tail(b2c)
+b2r <- bam2rpm(bamFile = file.bam,
+               region = promoter,
+               fragLength = 180)
+tail(b2r)
+
+```
+**2. match of RNA-Seq and ChIP-Seq data on gene lelvel**  
+Since one gene usually have several promoters and most of them have overlaps on the region, we use two strategies (1)highest: the promoters with maximum value or (2) weighted.mean: the weighted mean of several promoter to represent the signal of one specific histone modification for one gene. Through this approach we get the match of RNA-Seq and ChIP-Seq on gene level.
+
+**3. quantitativey integrate RNA-Seq and ChIP-Seq data**   
+After the match of RNA-Seq and ChIP-Seq on gene level, the integration of these two types of data is conducted through the calculation of lFC (log2FoldChange), the lFC is shrunk to zero when the counts are low, dispersion is high, or the number of replicates is small, which is implemented by DESeq2, and then Z score $Z.score = (lFC.RNAseq \mid sd(lFC.RNAseq))*(lFC.ChIPseq \mid sd(lFC.ChIPseq))$ is calculated for each histone modifiaction mark which measures the correlation of chnages in RNA-Seq and changes in ChIP-Seq for this mark. 
+
+**4. prioritization**  
+Take the Z scores of several different histone modifications as input, the prioritization of genes based on Z scores can be formulated as multiobjective optimization problem and solved with Pareto optimization
+
+
+# Input
+The input to intePareto is two data.frame objects with meta data of preprocessed RNA-Seq data and meta data with preprocessed ChIP-Seq data separately. 
+
+The RNA-Seq meta data.frame at least two columns:  
+  1. condition: identifier of the condition to which each sample belongs (e.g. wild.type or tet2.out).  
+  2. files: the exact address of the files contains the tsv file which is the output of RNA-Seq preprocessed with Kallisto.  
+```{r}
+data("test_rna_meta", package = "intePareto")
+test_rna_meta
+```
+
+The ChIP-Seq meta data.frame at least three columns:  
+  1. mark: the mark of histone modifications (e.g. H3K4me3 or H3K27ac).  
+  2. condition: identifier of the condition to which each sample belongs (e.g. wild.type or tet2.out).  
+  3. files: the exact address of the aligned bam files.  
+```{r}
+data("test_chip_meta", package = "intePareto")
+test_chip_meta
+```
+
+
+
+# Match of RNA-Seq and ChIP-Seq data on gene lelvel  
+The results of this step is a list with the following three items.  
+1. res.rna, a data frame contains RNA-Seq counts  
+2. res.chip, a data frame contains ChIP-Seq counts  
+3. matched.data, a dataframe contains matched RNA-Seq counts and ChIP-Seq counts  
+
+```{r}
+# get the exact place of the tsv files for RNA-Seq and 
+# bam files for ChIP-Seq data.
+test_rna_meta$files <- system.file("extdata", 
+                                   paste0(test_rna_meta$SRR,".tsv"), 
+                                   package = "intePareto")
+
+
+test_chip_meta$files <- system.file("extdata", 
+                                    paste0(test_chip_meta$SRR,".bam"), 
+                                    package = "intePareto")
+
+
+# match of RNA-Seq and ChIP-Seq data on the gene level 
+# through "weighted.mean" strategy.
+res <- doMatch(rnaMeta = test_rna_meta,
+               chipMeta = test_chip_meta,
+               region = "promoter",
+               method = "weighted.mean",
+               ensemblDataset = "mmusculus_gene_ensembl")
+```
+
+
+
+# Quantitativey integrate RNA-Seq and ChIP-Seq data
+
+```{r}
+data("res", package = "intePareto")
+df_final <- doIntegration(res = res,
+                          ref = "wild.type",
+                          type = "apeglm", 
+                          apeAdapt = FALSE)
+
+head(df_final)
+
+```
+
+
+
+# Prioritization of genes based on Z scores with Pareto optimization
+
+```{r}
+# chosse the first 3 fronts
+objective <- data.frame(mark = c("z.H3K27ac","z.H3K4me3"), 
+                        obj = c("max","max"), stringsAsFactors = FALSE)
+nr.fronts <- 3
+res_final <- doPareto(df_final = df_final, 
+                      objective = objective, 
+                      nr.fronts = nr.fronts)
+head(res_final)
+  
+```
+
+\newpage
+
+```{r}
+sessionInfo()
+```
+
