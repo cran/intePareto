@@ -4,7 +4,9 @@
 \name{promoter}
 \alias{promoter}
 \title{an example of promoter region}
-\format{An object of GRanges.}
+\format{
+An object of GRanges.
+}
 \usage{
 data(promoter)
 }

@@ -31,6 +31,10 @@
 #' within a biomaRt you can e.g. do: mart = useMart('ensembl'), followed by
 #' listDatasets(mart).
 #'
+#' @param host
+#' specify the archived versions of Ensembl. To see the available archived
+#' versions do: biomaRt::listEnsemblArchives()
+#'
 #' @param fragLength
 #' extend reads toward the 3'-end to the average DNA fragment size obtained
 #' after DNA size selection.
@@ -71,6 +75,7 @@
 #' chipMeta = test_chip_meta,
 #' region = "promoter",
 #' method = "weighted.mean",
+#' host = "http://aug2017.archive.ensembl.org",
 #' ensemblDataset = "mmusculus_gene_ensembl")
 #' }
 #' @export
@@ -80,6 +85,7 @@ doMatch <- function(rnaMeta,
                     region,
                     method,
                     ensemblDataset,
+                    host,
                     fragLength = 180,
                     promoter.length=5000){
   ### check input
@@ -87,16 +93,18 @@ doMatch <- function(rnaMeta,
                               chipMeta,
                               region,
                               method,
-                              ensemblDataset) {
+                              ensemblDataset,
+                              host) {
 
     # simple input param checks
     if(missing(rnaMeta) || is.null(rnaMeta) ||
        missing(chipMeta) || is.null(chipMeta) ||
        missing(region) || is.null(region) ||
        missing(method) || is.null(method) ||
+       missing(host) || is.null(host) ||
        missing(ensemblDataset) || is.null(ensemblDataset)) {
       stop("arguments rnaMeta, chipMeta, region,
-           method, ensemblDataset must be specified")
+           method, host, ensemblDataset must be specified")
     }
 
     # check rnaMeat
@@ -204,7 +212,7 @@ doMatch <- function(rnaMeta,
   }
 
   checkInputParam(rnaMeta = rnaMeta, chipMeta = chipMeta,
-                  region = region, method = method,
+                  region = region, method = method, host = host,
                   ensemblDataset = ensemblDataset)
 
   message("get RNA counts")
@@ -231,7 +239,7 @@ doMatch <- function(rnaMeta,
   exprs <- do.call("cbind",exprsList)
 
   # annotation form biomaRt package
-  ensembl <- biomaRt::useMart("ensembl", dataset = ensemblDataset)
+  ensembl <- biomaRt::useMart("ensembl", dataset = ensemblDataset, host = host)
 
   N <- data.frame(biomaRt::getBM(attributes=c("ensembl_transcript_id_version",
                                               "ensembl_gene_id",

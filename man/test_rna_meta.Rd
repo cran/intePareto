@@ -4,7 +4,9 @@
 \name{test_rna_meta}
 \alias{test_rna_meta}
 \title{meta data of preprocessed RNA-Seq data}
-\format{An object of data.frame.}
+\format{
+An object of data.frame.
+}
 \usage{
 data(test_rna_meta)
 }

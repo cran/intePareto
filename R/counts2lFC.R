@@ -36,7 +36,6 @@
 #'
 #' # Please note this is a downsampling of the original data.
 #' @import DESeq2
-#' @import apeglm
 #' @importFrom stats relevel
 #'
 counts2lFC <- function(countData,

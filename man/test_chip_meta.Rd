@@ -4,7 +4,9 @@
 \name{test_chip_meta}
 \alias{test_chip_meta}
 \title{meta data of preprocessed ChIP-Seq data}
-\format{An object of data.frame.}
+\format{
+An object of data.frame.
+}
 \usage{
 data(test_chip_meta)
 }

@@ -4,8 +4,16 @@
 \alias{doMatch}
 \title{Match the RNA-Seq and ChIP-Seq data on the gene level}
 \usage{
-doMatch(rnaMeta, chipMeta, region, method, ensemblDataset,
-  fragLength = 180, promoter.length = 5000)
+doMatch(
+  rnaMeta,
+  chipMeta,
+  region,
+  method,
+  ensemblDataset,
+  host,
+  fragLength = 180,
+  promoter.length = 5000
+)
 }
 \arguments{
 \item{rnaMeta}{metadata for RNA-Seq include column named "condition" indicates the
@@ -25,6 +33,9 @@ names of the aligned bam files.}
 \item{ensemblDataset}{Ensembl Dataset you want to use. To see the different datasets available
 within a biomaRt you can e.g. do: mart = useMart('ensembl'), followed by
 listDatasets(mart).}
+
+\item{host}{specify the archived versions of Ensembl. To see the available archived
+versions do: biomaRt::listEnsemblArchives()}
 
 \item{fragLength}{extend reads toward the 3'-end to the average DNA fragment size obtained
 after DNA size selection.}
@@ -65,6 +76,7 @@ doMatch(rnaMeta = test_rna_meta,
 chipMeta = test_chip_meta,
 region = "promoter",
 method = "weighted.mean",
+host = "http://aug2017.archive.ensembl.org",
 ensemblDataset = "mmusculus_gene_ensembl")
 }
 }

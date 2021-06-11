@@ -4,7 +4,9 @@
 \name{df_final}
 \alias{df_final}
 \title{an example of the result of doIntegration}
-\format{An object of data.frame.}
+\format{
+An object of data.frame.
+}
 \usage{
 data(df_final)
 }

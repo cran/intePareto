@@ -26,7 +26,6 @@
 #'
 #' @import DESeq2
 #' @importFrom stats na.omit
-#' @import apeglm
 #' @examples
 #' data(res)
 #' \donttest{doIntegration(res = res,ref="wild.type")

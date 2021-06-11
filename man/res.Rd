@@ -4,7 +4,9 @@
 \name{res}
 \alias{res}
 \title{an example of the result of doMatch}
-\format{An object of list.}
+\format{
+An object of list.
+}
 \usage{
 data(res)
 }

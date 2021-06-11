@@ -4,8 +4,15 @@
 \alias{counts2lFC}
 \title{Calculate log2FoldChange}
 \usage{
-counts2lFC(countData, colData, condition, ref, type = "apeglm",
-  apeAdapt = FALSE, ...)
+counts2lFC(
+  countData,
+  colData,
+  condition,
+  ref,
+  type = "apeglm",
+  apeAdapt = FALSE,
+  ...
+)
 }
 \arguments{
 \item{countData}{a matrix of counts.}
