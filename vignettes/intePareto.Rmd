@@ -17,3 +17,4 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(intePareto)
 ```
+### The detailed example of using intePareto is shown in this [case study example](https://static-content.springer.com/esm/art%3A10.1186%2Fs12864-020-07205-6/MediaObjects/12864_2020_7205_MOESM1_ESM.pdf).

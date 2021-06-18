@@ -1,4 +1,4 @@
-6499a348cc15e477b5d8d679326d7be5 *DESCRIPTION
+4d0c7b08874093c2f111c9fe6b45a089 *DESCRIPTION
 3a3c328fc47e4c34aab042911bfdfdcb *NAMESPACE
 e3cab56ac5689edc20286488bb87576d *R/bam2counts.R
 fe57b9737e74c78da91ea23648e05c07 *R/bam2rpm.R
@@ -19,8 +19,8 @@ a0720f40eefd825d2bb2fb317c41641f *data/res.rda
 3d74521802f03be9987e765fa10a741c *data/test_chip_meta.rda
 68e7183f07080c241fa3d1de0e6eda6b *data/test_rna_meta.rda
 98aa8f60fcac672a4638d2ec23d8fd71 *inst/doc/intePareto.R
-e577363b32ee99d057368fcbd96170ca *inst/doc/intePareto.Rmd
-3fba66372ec714ea2baa5bfe44431770 *inst/doc/intePareto.html
+15fad0c1f619194e42d28ad6c5b8ab99 *inst/doc/intePareto.Rmd
+7780fed65e2eaaeed8e8750c666432f1 *inst/doc/intePareto.html
 96fbb08f24e49269ff56a777165f4065 *inst/extdata/SRR925640.bam
 6290e242aa6be50c8f378bf3e2210ab5 *inst/extdata/SRR925642.bam
 fcf2322b6f2e46af089a28e6cabf1c05 *inst/extdata/SRR925643.bam
@@ -44,4 +44,4 @@ d94ea91ee7aaf2e89fab94e966a60a88 *man/doIntegration.Rd
 27874048a20154a7aa61b9a2fba6a185 *man/res.Rd
 457853065119392d2c6f967943c9087e *man/test_chip_meta.Rd
 a27ba4f98d545db58c65426e99fc1c3e *man/test_rna_meta.Rd
-e577363b32ee99d057368fcbd96170ca *vignettes/intePareto.Rmd
+15fad0c1f619194e42d28ad6c5b8ab99 *vignettes/intePareto.Rmd

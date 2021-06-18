@@ -1,8 +1,8 @@
 Package: intePareto
 Type: Package
 Title: Integrative Analysis of RNA-Seq and ChIP-Seq Data
-Version: 0.1.1
-Date: 2021-06-10
+Version: 0.1.2
+Date: 2021-06-17
 Authors@R: 
     person(given = "Yingying",
            family = "Cao",
@@ -17,16 +17,16 @@ Description: Integrative analysis of gene expression (RNA-Seq data), and histone
 License: GPL (>= 2)
 Depends: R (>= 3.6.0)
 Imports: GenomicRanges, GenomeInfoDb, IRanges, GenomicAlignments,
-        biomaRt, Rsamtools, rPref, DESeq2, apeglm
+        biomaRt, Rsamtools, rPref, DESeq2
 Suggests: knitr, rmarkdown
 LazyLoad: yes
 NeedsCompilation: no
 ByteCompile: true
 Encoding: UTF-8
-Packaged: 2021-06-10 15:31:18 UTC; yingying
+Packaged: 2021-06-17 18:26:22 UTC; yingying
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Author: Yingying Cao [aut, cre]
 Maintainer: Yingying Cao <yingying.cao@uni-due.de>
 Repository: CRAN
-Date/Publication: 2021-06-11 22:40:02 UTC
+Date/Publication: 2021-06-18 16:10:07 UTC
